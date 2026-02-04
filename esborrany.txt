@@ -1,0 +1,190 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+Grafs per fer la primera prova.
+Considerem els 9 primers fitxers .tsp
+
+Train:
+Carregat: a280
+Carregat: att48
+Carregat: bayg29
+Carregat: bays29
+Carregat: berlin52
+------------------
+Tour òptim carregat: a280
+Tour òptim carregat: att48
+Tour òptim carregat: bayg29
+Tour òptim carregat: bays29
+Tour òptim carregat: berlin52
+
+Test:
+Carregat: ali535
+Carregat: att532
+Carregat: bier127
+Carregat: brazil58
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 1:
+Època 01 | Pèrdua: 3.8733 | Acc train: 0.065
+Època 02 | Pèrdua: 3.8188 | Acc train: 0.063
+Època 03 | Pèrdua: 3.7750 | Acc train: 0.063
+Època 04 | Pèrdua: 3.7689 | Acc train: 0.065
+Època 05 | Pèrdua: 3.7463 | Acc train: 0.072
+Època 06 | Pèrdua: 3.7590 | Acc train: 0.072
+Època 07 | Pèrdua: 3.7589 | Acc train: 0.063
+Època 08 | Pèrdua: 3.7561 | Acc train: 0.070
+Època 09 | Pèrdua: 3.7268 | Acc train: 0.070
+Època 10 | Pèrdua: 3.7340 | Acc train: 0.063
+Època 11 | Pèrdua: 3.7380 | Acc train: 0.065
+Època 12 | Pèrdua: 3.7445 | Acc train: 0.068
+Època 13 | Pèrdua: 3.7427 | Acc train: 0.065
+Època 14 | Pèrdua: 3.7406 | Acc train: 0.072
+Època 15 | Pèrdua: 3.7347 | Acc train: 0.065
+Època 16 | Pèrdua: 3.7685 | Acc train: 0.068
+Època 17 | Pèrdua: 3.7414 | Acc train: 0.070
+Època 18 | Pèrdua: 3.7345 | Acc train: 0.068
+Època 19 | Pèrdua: 3.7320 | Acc train: 0.061
+Època 20 | Pèrdua: 3.7295 | Acc train: 0.068
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 2 - (2 capes, criterion = nn.BCEWithLogitsLoss())
+Epoch 01 | Loss: 0.2122 | Acc train: 0.990
+Epoch 02 | Loss: 0.1842 | Acc train: 0.990
+Epoch 03 | Loss: 0.1592 | Acc train: 0.990
+Epoch 04 | Loss: 0.1390 | Acc train: 0.990
+Epoch 05 | Loss: 0.1342 | Acc train: 0.990
+Epoch 06 | Loss: 0.1304 | Acc train: 0.990
+Epoch 07 | Loss: 0.1287 | Acc train: 0.990
+Epoch 08 | Loss: 0.1275 | Acc train: 0.990
+Epoch 09 | Loss: 0.1269 | Acc train: 0.990
+Epoch 10 | Loss: 0.1255 | Acc train: 0.990
+Epoch 11 | Loss: 0.1252 | Acc train: 0.990
+Epoch 12 | Loss: 0.1249 | Acc train: 0.990
+Epoch 13 | Loss: 0.1254 | Acc train: 0.990
+Epoch 14 | Loss: 0.1242 | Acc train: 0.990
+Epoch 15 | Loss: 0.1247 | Acc train: 0.990
+Epoch 16 | Loss: 0.1239 | Acc train: 0.990
+Epoch 17 | Loss: 0.1240 | Acc train: 0.990
+Epoch 18 | Loss: 0.1241 | Acc train: 0.990
+Epoch 19 | Loss: 0.1244 | Acc train: 0.990
+Epoch 20 | Loss: 0.1241 | Acc train: 0.990
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 3 (3 capes, criterion = nn.CrossEntropyLoss(), lr = 0.01)
+Epoch 01 | Loss: 4.212 | NodeAcc: 0.982 | Top1Acc: 0.070 | MeanRank: 0.37
+Epoch 02 | Loss: 3.982 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.38
+Epoch 03 | Loss: 3.975 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.37
+Epoch 04 | Loss: 3.972 | NodeAcc: 0.982 | Top1Acc: 0.070 | MeanRank: 0.37
+Epoch 05 | Loss: 3.971 | NodeAcc: 0.981 | Top1Acc: 0.063 | MeanRank: 0.37
+Epoch 06 | Loss: 3.988 | NodeAcc: 0.981 | Top1Acc: 0.065 | MeanRank: 0.38
+Epoch 07 | Loss: 4.001 | NodeAcc: 0.981 | Top1Acc: 0.061 | MeanRank: 0.37
+Epoch 08 | Loss: 3.980 | NodeAcc: 0.981 | Top1Acc: 0.054 | MeanRank: 0.38
+Epoch 09 | Loss: 3.988 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.37
+Epoch 10 | Loss: 3.967 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.37
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 4 (6 capes, batch =64, resta igual)
+Epoch 01 | Loss: 4.201 | NodeAcc: 0.981 | Top1Acc: 0.044 | MeanRank: 0.34
+Epoch 02 | Loss: 3.852 | NodeAcc: 0.981 | Top1Acc: 0.063 | MeanRank: 0.28
+Epoch 03 | Loss: 3.839 | NodeAcc: 0.981 | Top1Acc: 0.063 | MeanRank: 0.28
+Epoch 04 | Loss: 3.821 | NodeAcc: 0.981 | Top1Acc: 0.058 | MeanRank: 0.30
+Epoch 05 | Loss: 3.805 | NodeAcc: 0.981 | Top1Acc: 0.065 | MeanRank: 0.29
+Epoch 06 | Loss: 3.787 | NodeAcc: 0.981 | Top1Acc: 0.065 | MeanRank: 0.28
+Epoch 07 | Loss: 3.766 | NodeAcc: 0.981 | Top1Acc: 0.063 | MeanRank: 0.27
+Epoch 08 | Loss: 3.752 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.29
+Epoch 09 | Loss: 3.744 | NodeAcc: 0.982 | Top1Acc: 0.070 | MeanRank: 0.28
+Epoch 10 | Loss: 3.729 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.28
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 5 (lr = 0.001, resta igual)
+Epoch 01 | Loss: 3.967 | NodeAcc: 0.981 | Top1Acc: 0.044 | MeanRank: 0.38
+Epoch 02 | Loss: 3.926 | NodeAcc: 0.981 | Top1Acc: 0.044 | MeanRank: 0.35
+Epoch 03 | Loss: 3.896 | NodeAcc: 0.981 | Top1Acc: 0.054 | MeanRank: 0.32
+Epoch 04 | Loss: 3.870 | NodeAcc: 0.982 | Top1Acc: 0.070 | MeanRank: 0.29
+Epoch 05 | Loss: 3.829 | NodeAcc: 0.981 | Top1Acc: 0.065 | MeanRank: 0.29
+Epoch 06 | Loss: 3.791 | NodeAcc: 0.981 | Top1Acc: 0.065 | MeanRank: 0.29
+Epoch 07 | Loss: 3.776 | NodeAcc: 0.982 | Top1Acc: 0.072 | MeanRank: 0.28
+Epoch 08 | Loss: 3.758 | NodeAcc: 0.981 | Top1Acc: 0.061 | MeanRank: 0.28
+Epoch 09 | Loss: 3.788 | NodeAcc: 0.982 | Top1Acc: 0.075 | MeanRank: 0.29
+Epoch 10 | Loss: 3.752 | NodeAcc: 0.982 | Top1Acc: 0.068 | MeanRank: 0.28
+-------------------------------------------------------------------------------------------------------------------------------------
+Ara s'afegeixen més grafs a l'entrenament. També s'ha tret l'atribut id del conjunt x:
+
+Train
+Carregat: a280
+Carregat: att48
+Carregat: bayg29
+Carregat: bays29
+Carregat: berlin52
+Carregat: brg180
+Carregat: ch130
+Carregat: ch150
+Carregat: eil101
+Carregat: eil51
+Carregat: eil76
+Carregat: fri26
+Carregat: gr120
+Carregat: gr202
+Carregat: gr24
+Carregat: gr48
+------------------
+Tour òptim carregat: a280
+Tour òptim carregat: att48
+Tour òptim carregat: bayg29
+Tour òptim carregat: bays29
+Tour òptim carregat: berlin52
+Tour òptim carregat: brg180
+Tour òptim carregat: ch130
+Tour òptim carregat: ch150
+Tour òptim carregat: eil101
+Tour òptim carregat: eil51
+Tour òptim carregat: eil76
+Tour òptim carregat: fri26
+Tour òptim carregat: gr120
+Tour òptim carregat: gr202
+Tour òptim carregat: gr24
+Tour òptim carregat: gr48
+Tour òptim carregat: gr666
+Tour òptim carregat: gr96
+Tour òptim carregat: kroA100
+
+Test:
+Carregat: ali535
+Carregat: att532
+Carregat: bier127
+Carregat: brazil58
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 6:
+Epoch 01 | Loss: 3.943 | NodeAcc: 0.976 | Top1Acc: 0.069 | MeanRank: 0.36
+Epoch 02 | Loss: 3.895 | NodeAcc: 0.976 | Top1Acc: 0.071 | MeanRank: 0.35
+Epoch 03 | Loss: 3.881 | NodeAcc: 0.976 | Top1Acc: 0.065 | MeanRank: 0.35
+Epoch 04 | Loss: 3.878 | NodeAcc: 0.976 | Top1Acc: 0.061 | MeanRank: 0.38
+Epoch 05 | Loss: 3.877 | NodeAcc: 0.976 | Top1Acc: 0.065 | MeanRank: 0.36
+Epoch 06 | Loss: 3.886 | NodeAcc: 0.976 | Top1Acc: 0.067 | MeanRank: 0.35
+Epoch 07 | Loss: 3.873 | NodeAcc: 0.976 | Top1Acc: 0.067 | MeanRank: 0.34
+Epoch 08 | Loss: 3.861 | NodeAcc: 0.976 | Top1Acc: 0.065 | MeanRank: 0.35
+Epoch 09 | Loss: 3.855 | NodeAcc: 0.976 | Top1Acc: 0.066 | MeanRank: 0.37
+Epoch 10 | Loss: 3.851 | NodeAcc: 0.976 | Top1Acc: 0.068 | MeanRank: 0.35
+-------------------------------------------------------------------------------------------------------------------------------------
+Entrenament 7 (V2)
+Epoch 01 | Loss: 3.269 | Top1Acc: 0.324 | MeanRank: 0.244
+Epoch 02 | Loss: 2.930 | Top1Acc: 0.346 | MeanRank: 0.213
+Epoch 03 | Loss: 2.879 | Top1Acc: 0.349 | MeanRank: 0.202
+Epoch 04 | Loss: 2.877 | Top1Acc: 0.349 | MeanRank: 0.199
+Epoch 05 | Loss: 2.874 | Top1Acc: 0.347 | MeanRank: 0.199
+Epoch 06 | Loss: 2.873 | Top1Acc: 0.347 | MeanRank: 0.199
+Epoch 07 | Loss: 2.886 | Top1Acc: 0.347 | MeanRank: 0.199
+Epoch 08 | Loss: 2.872 | Top1Acc: 0.348 | MeanRank: 0.199
+Epoch 09 | Loss: 2.860 | Top1Acc: 0.347 | MeanRank: 0.199
+Epoch 10 | Loss: 2.883 | Top1Acc: 0.347 | MeanRank: 0.199
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+

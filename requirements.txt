@@ -1,0 +1,12 @@
+matplotlib>=3.7.5
+tsplib95>=0.7.1
+networkx>=2.8.8
+torch==2.2.2
+torch-geometric>=2.6.1
+torch-scatter
+torch-sparse
+torch-cluster
+torch-spline-conv
+torchaudio>=0.13.0
+torchvision>=0.14.0
+tqdm>=4.67.1
