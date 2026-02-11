@@ -10,9 +10,8 @@ from torch_geometric.loader import DataLoader
 
 def load_train_graphs(root: Path):
     graphs = []
-    for pt_file in sorted(root.glob("*.pt"))[278:428]:
+    for pt_file in sorted(root.glob("*.pt")):
         data = torch.load(pt_file, weights_only=False)
-
         # Eliminar node_id perquè PyG el tracta com a node feature
         if hasattr(data, "node_id"):
             del data.node_id
@@ -23,6 +22,7 @@ def load_train_graphs(root: Path):
 root = Path("Datasets/train_pyg")
 graphs = load_train_graphs(root)
 print(f"Total graphs loaded: {len(graphs)}")
+
 
 random.shuffle(graphs)
 val_ratio = 0.2
@@ -35,6 +35,7 @@ print(f"Val set: {len(graphs_val)} graphs")
 
 train_loader = DataLoader(graphs_train, batch_size=32, shuffle=True)
 val_loader = DataLoader(graphs_val, batch_size=32, shuffle=False)
+
 
 class TSPGNN(nn.Module):
     def __init__(self, hidden_dim=64, num_layers=3):

@@ -41,8 +41,9 @@ def prepare_graph(G):
     Prepare a TSPLIB graph loaded with tsplib95:
     - ensure undirected
     - remove self-loops
+    - convert to 1-based indexing if needed
     - keep only edge weight
-    - keep only node id + initial/current/target
+    - initialize node attributes (initial/current/target)
     """
 
     # Ensure undirected structure
@@ -50,6 +51,13 @@ def prepare_graph(G):
 
     # Remove self-loops
     G.remove_edges_from(nx.selfloop_edges(G))
+
+    # Detect and convert 0-based graphs to 1-based ---
+    nodes = sorted(G.nodes())
+    if nodes[0] == 0:
+        # Build mapping: 0→1, 1→2, ..., n-1→n
+        mapping = {old: old + 1 for old in nodes}
+        G = nx.relabel_nodes(G, mapping, copy=True)
 
     # Initialize node attributes
     first_node = min(G.nodes)
@@ -70,17 +78,18 @@ def prepare_graph(G):
 
 def nx_to_pyg(G):
     """
-    Convert a prepared NetworkX TSP graph into a PyTorch Geometric Data object.
+    Convert a prepared 1-based NetworkX TSP graph into a PyTorch Geometric Data object.
+    Used for TEST graphs (no target).
     Keeps:
       - x: [initial, current]
-      - edge_index (bidirectional)
+      - edge_index (bidirectional, 0-based)
       - edge_attr (weight)
-      - node_id (original TSPLIB ids)
-      - y: index of target node (0-based)
     """
 
-    # Sorted node list for consistent indexing
+    # Sorted node list (1-based)
     nodes = sorted(G.nodes())
+
+    # Convert to 0-based indexing for PyTorch
     mapping = {node: i for i, node in enumerate(nodes)}
 
     # Node features
@@ -93,16 +102,6 @@ def nx_to_pyg(G):
             for node in nodes
         ],
         dtype=torch.float
-    )
-
-    # Original TSPLIB node IDs
-    node_id = torch.tensor(nodes, dtype=torch.long)
-
-    # Target node (converted to PyTorch index)
-    target_node = next((node for node in nodes if G.nodes[node]["target"] == 1), None)
-    y = torch.tensor(
-        mapping[target_node] if target_node is not None else -1,
-        dtype=torch.long
     )
 
     # Edges (bidirectional)
@@ -122,13 +121,11 @@ def nx_to_pyg(G):
     edge_index = torch.tensor(edge_index_list, dtype=torch.long).t().contiguous()
     edge_attr = torch.tensor(edge_attr_list, dtype=torch.float)
 
-    # Build Data object
+    # Build Data object (no y)
     return Data(
         x=x,
         edge_index=edge_index,
-        edge_attr=edge_attr,
-        node_id=node_id,
-        y=y
+        edge_attr=edge_attr
     )
 
 

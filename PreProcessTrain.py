@@ -41,8 +41,9 @@ def prepare_graph(G):
     Prepare a TSPLIB graph loaded with tsplib95:
     - ensure undirected
     - remove self-loops
+    - convert to 1-based indexing if needed
     - keep only edge weight
-    - keep only node id + initial/current/target
+    - initialize node attributes (initial/current/target)
     """
 
     # Ensure undirected structure
@@ -50,6 +51,13 @@ def prepare_graph(G):
 
     # Remove self-loops
     G.remove_edges_from(nx.selfloop_edges(G))
+
+    # Detect and convert 0-based graphs to 1-based ---
+    nodes = sorted(G.nodes())
+    if nodes[0] == 0:
+        # Build mapping: 0→1, 1→2, ..., n-1→n
+        mapping = {old: old + 1 for old in nodes}
+        G = nx.relabel_nodes(G, mapping, copy=True)
 
     # Initialize node attributes
     first_node = min(G.nodes)
@@ -66,108 +74,6 @@ def prepare_graph(G):
         attrs["weight"] = w
 
     return G
-
-
-def nx_to_pyg(G):
-    """
-    Convert a prepared NetworkX TSP graph into a PyTorch Geometric Data object.
-    Keeps:
-      - x: [initial, current]
-      - edge_index (bidirectional)
-      - edge_attr (weight)
-      - node_id (original TSPLIB ids)
-      - y: index of target node (0-based)
-    """
-
-    # Sorted node list for consistent indexing
-    nodes = sorted(G.nodes())
-    mapping = {node: i for i, node in enumerate(nodes)}
-
-    # Node features
-    x = torch.tensor(
-        [
-            [
-                G.nodes[node]["initial"],
-                G.nodes[node]["current"]
-            ]
-            for node in nodes
-        ],
-        dtype=torch.float
-    )
-
-    # Original TSPLIB node IDs
-    node_id = torch.tensor(nodes, dtype=torch.long)
-
-    # Target node (converted to PyTorch index)
-    target_node = next((node for node in nodes if G.nodes[node]["target"] == 1), None)
-    y = torch.tensor(
-        mapping[target_node] if target_node is not None else -1,
-        dtype=torch.long
-    )
-
-    # Edges (bidirectional)
-    edge_index_list = []
-    edge_attr_list = []
-
-    for u, v, attrs in G.edges(data=True):
-        i, j = mapping[u], mapping[v]
-        w = attrs["weight"]
-
-        edge_index_list.append([i, j])
-        edge_attr_list.append([w])
-
-        edge_index_list.append([j, i])
-        edge_attr_list.append([w])
-
-    edge_index = torch.tensor(edge_index_list, dtype=torch.long).t().contiguous()
-    edge_attr = torch.tensor(edge_attr_list, dtype=torch.float)
-
-    # Build Data object
-    return Data(
-        x=x,
-        edge_index=edge_index,
-        edge_attr=edge_attr,
-        node_id=node_id,
-        y=y
-    )
-
-
-def generate_training_graphs(G, tour):
-    """
-    Given a prepared graph G and a normalized tour,
-    generate one graph per decision (num_nodes - 2).
-    """
-
-    graphs = []
-
-    # Copy nodes to track which remain
-    remaining = list(tour)
-
-    initial = tour[0]
-
-    for step in range(len(tour) - 2):
-        current = tour[step]
-        target = tour[step + 1]
-
-        # Build a fresh copy of the graph
-        H = G.copy()
-
-        # Remove visited nodes except initial and current
-        visited = tour[:step]
-        for v in visited:
-            if v != initial:
-                if v in H:
-                    H.remove_node(v)
-
-        # Reset attributes
-        for node in H.nodes:
-            H.nodes[node]["initial"] = int(node == initial)
-            H.nodes[node]["current"] = int(node == current)
-            H.nodes[node]["target"] = int(node == target)
-
-        graphs.append(H)
-
-    return graphs
 
 
 def load_opt_tour(tour_path: Path):
@@ -205,6 +111,101 @@ def load_opt_tour(tour_path: Path):
         tour = tour[:-1]
 
     return tour
+
+
+def generate_training_graphs(G, tour):
+    """
+    Given a prepared graph G and its corresponding optimal tour,
+    generate one graph per decision (num_nodes - 2).
+    """
+
+    graphs = []
+
+    initial = tour[0]
+
+    for step in range(len(tour) - 2):
+        current = tour[step]
+        target = tour[step + 1]
+
+        # Build a fresh copy of the graph
+        H = G.copy()
+
+        # Remove visited nodes except initial and current
+        visited = tour[:step]
+        for v in visited:
+            if v != initial and v in H:
+                H.remove_node(v)
+
+        # Reset attributes
+        for node in H.nodes:
+            H.nodes[node]["initial"] = int(node == initial)
+            H.nodes[node]["current"] = int(node == current)
+            H.nodes[node]["target"] = int(node == target)
+
+        graphs.append(H)
+
+    return graphs
+
+
+def nx_to_pyg(G):
+    """
+    Convert a prepared 1-based NetworkX TSP graph into a PyTorch Geometric Data object.
+    Keeps:
+      - x: [initial, current]
+      - edge_index (bidirectional, 0-based)
+      - edge_attr (weight)
+      - y: index of target node (0-based)
+    """
+
+    # Sorted node list (1-based)
+    nodes = sorted(G.nodes())
+
+    # Convert to 0-based indexing for PyTorch
+    mapping = {node: i for i, node in enumerate(nodes)}
+
+    # Node features
+    x = torch.tensor(
+        [
+            [
+                G.nodes[node]["initial"],
+                G.nodes[node]["current"]
+            ]
+            for node in nodes
+        ],
+        dtype=torch.float
+    )
+
+    # Target node (converted to PyTorch index)
+    target_node = next((node for node in nodes if G.nodes[node]["target"] == 1), None)
+    y = torch.tensor(
+        mapping[target_node] if target_node is not None else -1,
+        dtype=torch.long
+    )
+
+    # Edges (bidirectional)
+    edge_index_list = []
+    edge_attr_list = []
+
+    for u, v, attrs in G.edges(data=True):
+        i, j = mapping[u], mapping[v]
+        w = attrs["weight"]
+
+        edge_index_list.append([i, j])
+        edge_attr_list.append([w])
+
+        edge_index_list.append([j, i])
+        edge_attr_list.append([w])
+
+    edge_index = torch.tensor(edge_index_list, dtype=torch.long).t().contiguous()
+    edge_attr = torch.tensor(edge_attr_list, dtype=torch.float)
+
+    # Build Data object
+    return Data(
+        x=x,
+        edge_index=edge_index,
+        edge_attr=edge_attr,
+        y=y
+    )
 
 
 def save_graph(data: Data, pt_path: Path, count: int):
