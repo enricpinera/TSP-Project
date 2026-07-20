@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+.DS_Store
+.vscode/
+.idea/
+.agents/
+
+.env
+.env.*
+!.env.example
+
+tsp-data/
+Visualizations/output/
+
+*.log
