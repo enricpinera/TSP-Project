@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-"""Generate simple learning-curve figures for the six trained neural models."""
+"""Generate learning-curve figures for the six trained neural models."""
 
 from __future__ import annotations
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Generate score and time boxplots by algorithm for each evaluated TSP size."""
 
 from __future__ import annotations

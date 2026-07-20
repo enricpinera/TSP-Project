@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Visualize the complete GCN TSP10 inference process on the first test graph."""
 
 from __future__ import annotations

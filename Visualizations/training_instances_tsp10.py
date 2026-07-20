@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Visualize how the first TSP10 training tour becomes sequential training instances."""
 
 from __future__ import annotations
